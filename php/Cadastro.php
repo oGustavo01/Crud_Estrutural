@@ -1,25 +1,38 @@
 <?php
+# criar um banco de dados usando SQlite
+
+# criar a tabela e adicionar os dados na tabela
 
 $db = new SQLite3('dados.db');
 $db->query('create table if not exists cadastro(id integer  primary  key autoincrement, nome text, cidade text, endereco text)');
+
+# função para inserir os dados no cadastro(nome, cidade, endereço).
 
 function inserir($dados){
     $GLOBALS['db']->query("insert into cadastro (nome, cidade, endereco) values ('".
         $dados['nome']."','".$dados['cidade']."','".$dados['endereco']."')");
 }
+# função para mostrar a lista dos IDs cadastrados.
+
 function listar(){
     $query = $GLOBALS['db']->query("SELECT * FROM cadastro");
     while($dados = $query->fetchArray(SQLITE3_ASSOC)){
         print_r($dados);
     }
 }
+# função para alterar os dados do ID.
+
 function alterar($dados){
     $GLOBALS['db']->query("update cadastro set nome = '".$dados['nome']."', cidade = '".
         $dados['cidade']."',endereco = '".$dados['endereco']."' where id = '".$dados['id']."' ");
 }
+# função para apagar o ID(dados).
+
 function apagar($id){
     $GLOBALS['db']->query("delete from cadastro where id = ".$id);
 }
+# função para pegar os dados no banco de dados.
+
 function pegar($id){
     $query = $GLOBALS['db']->query("select * from cadastro where id = ".$id);
     $r = array();
@@ -32,6 +45,8 @@ function pegar($id){
         return false;
     }
 }
+# função para visualizar os comandos.
+
 function main(){
     echo "Cadastro \n\n";
     echo "1 Novo Cadastro;\n";
